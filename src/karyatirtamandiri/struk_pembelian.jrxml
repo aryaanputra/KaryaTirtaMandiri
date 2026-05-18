@@ -1,0 +1,195 @@
+<!-- Created with Jaspersoft Studio version 7.0.6.final using JasperReports Library version 7.0.6-5d2a603fdc6b3db8f842a83383e594f41891534d  -->
+<jasperReport name="struk_pembelian" language="java" columnCount="1" pageWidth="297" pageHeight="842" orientation="Landscape" columnWidth="257" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="fffbb4e1-88fc-430e-97cb-46dd2b98d3db">
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="karyatirtamandiri.jrdax"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<query language="sql"><![CDATA[SELECT 
+    tb_pemesanan.no_faktur,
+    tb_pemesanan.id_pelanggan,
+    tb_pemesanan.nama_pelanggan,
+    tb_pemesanan.tanggal,
+    tb_pemesanan.bayar,
+    tb_pemesanan.total,
+    tb_pemesanan.kembalian,
+    tb_detail_pemesanan.jumlah,
+    tb_detail_pemesanan.harga_jual,
+    tb_detail_pemesanan.nama_barang,
+    tb_detail_pemesanan.id_barang
+FROM tb_pemesanan
+JOIN tb_detail_pemesanan
+ON tb_pemesanan.no_faktur = tb_detail_pemesanan.no_faktur
+WHERE tb_pemesanan.no_faktur = 20260511094914]]></query>
+	<field name="no_faktur" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="no_faktur"/>
+		<property name="com.jaspersoft.studio.field.label" value="no_faktur"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_pemesanan"/>
+	</field>
+	<field name="id_pelanggan" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="id_pelanggan"/>
+		<property name="com.jaspersoft.studio.field.label" value="id_pelanggan"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_pemesanan"/>
+	</field>
+	<field name="nama_pelanggan" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nama_pelanggan"/>
+		<property name="com.jaspersoft.studio.field.label" value="nama_pelanggan"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_pemesanan"/>
+	</field>
+	<field name="tanggal" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="tanggal"/>
+		<property name="com.jaspersoft.studio.field.label" value="tanggal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_pemesanan"/>
+	</field>
+	<field name="bayar" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="bayar"/>
+		<property name="com.jaspersoft.studio.field.label" value="bayar"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_pemesanan"/>
+	</field>
+	<field name="total" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="total"/>
+		<property name="com.jaspersoft.studio.field.label" value="total"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_pemesanan"/>
+	</field>
+	<field name="kembalian" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="kembalian"/>
+		<property name="com.jaspersoft.studio.field.label" value="kembalian"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_pemesanan"/>
+	</field>
+	<field name="jumlah" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="jumlah"/>
+		<property name="com.jaspersoft.studio.field.label" value="jumlah"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_detail_pemesanan"/>
+	</field>
+	<field name="harga_jual" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="harga_jual"/>
+		<property name="com.jaspersoft.studio.field.label" value="harga_jual"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_detail_pemesanan"/>
+	</field>
+	<field name="nama_barang" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nama_barang"/>
+		<property name="com.jaspersoft.studio.field.label" value="nama_barang"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_detail_pemesanan"/>
+	</field>
+	<field name="id_barang" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="id_barang"/>
+		<property name="com.jaspersoft.studio.field.label" value="id_barang"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_detail_pemesanan"/>
+	</field>
+	<background splitType="Stretch"/>
+	<title height="87" splitType="Stretch">
+		<element kind="staticText" uuid="015feb2d-74db-419e-b3ed-27d3f57f6bc3" x="0" y="3" width="260" height="30" fontName="Arial" fontSize="17.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[KARYA TIRTA MANDIRI]]></text>
+		</element>
+		<element kind="staticText" uuid="75350a45-5205-4f80-abe7-ad63bbd5316b" x="0" y="31" width="260" height="30" fontName="Arial" fontSize="13.0" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Jl. MH. Thamrin, RT.003/RW.001, Cikokol, Kec. Tangerang, Kota Tangerang, Banten 15143]]></text>
+		</element>
+		<element kind="staticText" uuid="d011c1d8-1d06-4ee3-851b-b47432b0dfa4" x="0" y="57" width="260" height="30" fontName="Arial" fontSize="13.0" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[ 0813-1612-535]]></text>
+		</element>
+	</title>
+	<pageHeader height="87" splitType="Stretch">
+		<element kind="staticText" uuid="e7fd8fea-d72d-451a-a8fc-938e7b81b153" x="0" y="-8" width="260" height="30" vTextAlign="Middle">
+			<text><![CDATA[================================]]></text>
+		</element>
+		<element kind="staticText" uuid="de36ea94-5081-4295-99f3-dda20daf19d3" x="0" y="-2" width="260" height="30" vTextAlign="Middle">
+			<text><![CDATA[================================]]></text>
+		</element>
+		<element kind="textField" uuid="e21fdcfd-67ca-4678-86cb-f2f17d5ac355" x="85" y="16" width="119" height="30" fontName="Arial" fontSize="13.0" vTextAlign="Middle">
+			<expression><![CDATA[$F{no_faktur}]]></expression>
+		</element>
+		<element kind="staticText" uuid="e1c15466-5c5b-42f1-a744-d251712346cb" x="10" y="16" width="60" height="30" fontName="Arial" fontSize="13.0" hTextAlign="Left" vTextAlign="Middle">
+			<text><![CDATA[No Faktur]]></text>
+		</element>
+		<element kind="staticText" uuid="0697894b-39e5-44db-a5fa-031a717af48f" x="10" y="30" width="60" height="30" fontName="Arial" fontSize="13.0" hTextAlign="Left" vTextAlign="Middle">
+			<text><![CDATA[Kasir]]></text>
+		</element>
+		<element kind="textField" uuid="9b7fd2e9-e5b3-4dbc-8a3b-4da997efd23a" x="85" y="30" width="119" height="30" fontName="Arial" fontSize="13.0" vTextAlign="Middle">
+			<expression><![CDATA[$F{no_faktur}]]></expression>
+		</element>
+		<element kind="staticText" uuid="16e5896b-c091-4444-923d-2e2b0d8e215b" x="75" y="22" width="10" height="18" fontName="Arial" fontSize="13.0" hTextAlign="Left" vTextAlign="Top">
+			<text><![CDATA[:]]></text>
+		</element>
+		<element kind="staticText" uuid="a6eca210-9a83-4265-8ea9-e1739e9cee8b" x="75" y="37" width="10" height="18" fontName="Arial" fontSize="13.0" hTextAlign="Left" vTextAlign="Top">
+			<text><![CDATA[:]]></text>
+		</element>
+		<element kind="staticText" uuid="ffbd48fb-1135-4100-bdb5-09ee90ad1072" x="0" y="47" width="260" height="30" vTextAlign="Middle">
+			<text><![CDATA[================================]]></text>
+		</element>
+		<element kind="staticText" uuid="c138720a-041e-47a9-b3d9-db4877d6406e" x="0" y="53" width="260" height="30" vTextAlign="Middle">
+			<text><![CDATA[================================]]></text>
+		</element>
+	</pageHeader>
+	<detail>
+		<band height="66" splitType="Stretch">
+			<element kind="textField" uuid="27f86801-9db7-4d3a-8c4a-1fad328d4c60" x="10" y="10" width="90" height="30" fontName="Arial" fontSize="13.0" vTextAlign="Middle">
+				<expression><![CDATA[$F{id_barang}]]></expression>
+			</element>
+			<element kind="textField" uuid="7fb32eda-e22e-495b-8d60-69bed49cda39" x="154" y="10" width="90" height="30" fontName="Arial" fontSize="13.0" hTextAlign="Right" vTextAlign="Middle">
+				<expression><![CDATA[$F{jumlah}]]></expression>
+			</element>
+			<element kind="textField" uuid="4ad6684e-de50-4f20-a761-9db20197b661" x="10" y="26" width="110" height="30" fontName="Arial" fontSize="13.0" vTextAlign="Middle">
+				<expression><![CDATA[$F{nama_barang}]]></expression>
+			</element>
+		</band>
+	</detail>
+	<columnFooter height="60" splitType="Stretch">
+		<element kind="textField" uuid="3fc72aab-00d8-46c9-81d2-8d1190e67a0c" x="134" y="-6" width="110" height="30" fontName="Arial" fontSize="13.0" hTextAlign="Right" vTextAlign="Middle">
+			<expression><![CDATA[$F{total}]]></expression>
+		</element>
+		<element kind="textField" uuid="fd3b0513-6c2b-4d96-a747-cad8dcfc235a" x="134" y="10" width="110" height="30" fontName="Arial" fontSize="13.0" hTextAlign="Right" vTextAlign="Middle">
+			<expression><![CDATA[$F{bayar}]]></expression>
+		</element>
+		<element kind="textField" uuid="f6d53194-b719-4ed8-a525-5c282e95ec6e" x="134" y="25" width="110" height="30" fontName="Arial" fontSize="13.0" hTextAlign="Right" vTextAlign="Middle">
+			<expression><![CDATA[$F{kembalian}]]></expression>
+		</element>
+		<element kind="staticText" uuid="66fef21e-0242-4cac-89a7-258ae441e393" x="75" y="1" width="10" height="18" fontName="Arial" fontSize="13.0" hTextAlign="Left" vTextAlign="Top">
+			<text><![CDATA[:]]></text>
+		</element>
+		<element kind="staticText" uuid="047243f2-2e4d-4d22-9483-c5a590f48965" x="10" y="-6" width="60" height="30" fontName="Arial" fontSize="13.0" hTextAlign="Left" vTextAlign="Middle">
+			<text><![CDATA[Total]]></text>
+		</element>
+		<element kind="staticText" uuid="62b0464c-76a1-42c6-997b-b6d10a7eb78e" x="10" y="9" width="60" height="30" fontName="Arial" fontSize="13.0" hTextAlign="Left" vTextAlign="Middle">
+			<text><![CDATA[Bayar]]></text>
+		</element>
+		<element kind="staticText" uuid="8495b5d5-26d6-4def-8541-98ae98b0c625" x="75" y="16" width="10" height="18" fontName="Arial" fontSize="13.0" hTextAlign="Left" vTextAlign="Top">
+			<text><![CDATA[:]]></text>
+		</element>
+		<element kind="staticText" uuid="f587f40c-6516-4372-a44b-08ec42b8aef5" x="75" y="31" width="10" height="18" fontName="Arial" fontSize="13.0" hTextAlign="Left" vTextAlign="Top">
+			<text><![CDATA[:]]></text>
+		</element>
+		<element kind="staticText" uuid="9df3b5f5-e9c7-4afc-966c-a5874b692ead" x="10" y="24" width="75" height="30" fontName="Arial" fontSize="13.0" hTextAlign="Left" vTextAlign="Middle">
+			<text><![CDATA[Kembalian]]></text>
+		</element>
+	</columnFooter>
+	<pageFooter height="83" splitType="Stretch">
+		<element kind="staticText" uuid="fa7ed746-1310-4cdd-b0f1-94d579d4ac96" x="0" y="47" width="260" height="30" vTextAlign="Middle">
+			<text><![CDATA[================================]]></text>
+		</element>
+		<element kind="staticText" uuid="4213b75a-380e-4eb9-a72a-f9a5fb48fcc4" x="0" y="53" width="260" height="30" vTextAlign="Middle">
+			<text><![CDATA[================================]]></text>
+		</element>
+		<element kind="staticText" uuid="301e1d99-1d15-46e3-801e-a5d4335969d5" x="39" y="1" width="60" height="30" fontName="Arial" fontSize="13.0" hTextAlign="Right" vTextAlign="Middle">
+			<text><![CDATA[Tgl]]></text>
+		</element>
+		<element kind="textField" uuid="ef469493-6230-4021-a220-1cc4ffe84cf2" x="104" y="1" width="110" height="30" fontName="Arial" fontSize="13.0" hTextAlign="Left" vTextAlign="Middle">
+			<expression><![CDATA[$F{tanggal}]]></expression>
+		</element>
+		<element kind="staticText" uuid="7373311e-1df7-4c15-ba36-1f4b7a032d5a" x="70" y="18" width="60" height="30" fontName="Arial" fontSize="13.0" hTextAlign="Left" vTextAlign="Middle">
+			<text><![CDATA[MEMBER]]></text>
+		</element>
+		<element kind="textField" uuid="f0707c85-c037-46f8-8de6-0c51dbfa73e8" x="141" y="18" width="110" height="30" fontName="Arial" fontSize="13.0" hTextAlign="Left" vTextAlign="Middle">
+			<expression><![CDATA[$F{id_pelanggan}]]></expression>
+		</element>
+		<element kind="staticText" uuid="ccc437e7-6afb-42fa-b6d7-c533d6e9b54a" x="131" y="25" width="10" height="18" fontName="Arial" fontSize="13.0" hTextAlign="Left" vTextAlign="Top">
+			<text><![CDATA[:]]></text>
+		</element>
+	</pageFooter>
+	<summary height="42" splitType="Stretch"/>
+</jasperReport>
