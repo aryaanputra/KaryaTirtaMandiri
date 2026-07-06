@@ -80,9 +80,9 @@ public class riwayat_pemesanan extends javax.swing.JPanel {
                     rs.getString(2),
                     rs.getString(3),
                     rs.getString(4),
-                    rs.getString(5),
-                    rs.getString(6),
-                    rs.getString(7)
+                    rs.getString(7),
+                    rs.getString(8),
+                    rs.getString(9)
                 };
                 model.addRow(data);
             }
@@ -264,9 +264,9 @@ public class riwayat_pemesanan extends javax.swing.JPanel {
 
     private void tabel_barang1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabel_barang1MouseClicked
         int row = tabel_barang1.getSelectedRow();
-        String id = tabel_barang1.getValueAt(row, 0).toString();
-        String nama = tabel_barang1.getValueAt(row, 2).toString();
-        String hargajual = tabel_barang1.getValueAt(row, 5).toString();
+        String no_faktur = tabel_barang1.getValueAt(row, 0).toString();
+        
+        txt_nofaktur.setText(no_faktur);
     }//GEN-LAST:event_tabel_barang1MouseClicked
 
     private void btnCetakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCetakActionPerformed

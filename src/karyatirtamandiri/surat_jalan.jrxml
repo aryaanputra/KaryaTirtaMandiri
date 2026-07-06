@@ -1,0 +1,234 @@
+<!-- Created with Jaspersoft Studio version 7.0.6.final using JasperReports Library version 7.0.6-5d2a603fdc6b3db8f842a83383e594f41891534d  -->
+<jasperReport name="surat_jalan" language="java" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f490a625-b75e-4241-b56b-150b3f88a680">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="karyatirtamandiri.jrdax"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="no_surat_jalan" class="java.lang.String">
+		<defaultValueExpression><![CDATA[$P{no_surat_jalan}]]></defaultValueExpression>
+	</parameter>
+	<parameter name="no_faktur" class="java.lang.String">
+		<defaultValueExpression><![CDATA[$P{no_faktur}]]></defaultValueExpression>
+	</parameter>
+	<query language="sql"><![CDATA[SELECT
+    sj.no_surat_jalan,
+    sj.no_faktur,
+    sj.tanggal_surat,
+
+    p.nama_pelanggan,
+    p.tanggal,
+    p.tanggal_pengiriman,
+    p.keterangan,
+    p.bayar,
+    p.total,
+    p.kembalian,
+
+    d.nama_barang,
+    d.jumlah,
+    d.harga_jual,
+
+    k.merk_kendaraan,
+    k.platnomor,
+
+    pg.nama_pengemudi
+
+FROM tb_surat_jalan sj
+
+INNER JOIN tb_pemesanan p
+    ON sj.no_faktur = p.no_faktur
+
+INNER JOIN tb_detail_pemesanan d
+    ON p.no_faktur = d.no_faktur
+
+INNER JOIN tb_kendaraan k
+    ON sj.id_kendaraan = k.id_kendaraan
+
+INNER JOIN tb_pengemudi pg
+    ON sj.id_pengemudi = pg.id_pengemudi
+
+WHERE sj.no_faktur = $P{no_faktur};]]></query>
+	<field name="no_surat_jalan" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="no_surat_jalan"/>
+		<property name="com.jaspersoft.studio.field.label" value="no_surat_jalan"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_surat_jalan"/>
+	</field>
+	<field name="no_faktur" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="no_faktur"/>
+		<property name="com.jaspersoft.studio.field.label" value="no_faktur"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_surat_jalan"/>
+	</field>
+	<field name="tanggal_surat" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="tanggal_surat"/>
+		<property name="com.jaspersoft.studio.field.label" value="tanggal_surat"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_surat_jalan"/>
+	</field>
+	<field name="nama_pelanggan" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nama_pelanggan"/>
+		<property name="com.jaspersoft.studio.field.label" value="nama_pelanggan"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_pemesanan"/>
+	</field>
+	<field name="tanggal" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="tanggal"/>
+		<property name="com.jaspersoft.studio.field.label" value="tanggal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_pemesanan"/>
+	</field>
+	<field name="tanggal_pengiriman" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="tanggal_pengiriman"/>
+		<property name="com.jaspersoft.studio.field.label" value="tanggal_pengiriman"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_pemesanan"/>
+	</field>
+	<field name="keterangan" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="keterangan"/>
+		<property name="com.jaspersoft.studio.field.label" value="keterangan"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_pemesanan"/>
+	</field>
+	<field name="bayar" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="bayar"/>
+		<property name="com.jaspersoft.studio.field.label" value="bayar"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_pemesanan"/>
+	</field>
+	<field name="total" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="total"/>
+		<property name="com.jaspersoft.studio.field.label" value="total"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_pemesanan"/>
+	</field>
+	<field name="kembalian" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="kembalian"/>
+		<property name="com.jaspersoft.studio.field.label" value="kembalian"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_pemesanan"/>
+	</field>
+	<field name="nama_barang" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nama_barang"/>
+		<property name="com.jaspersoft.studio.field.label" value="nama_barang"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_detail_pemesanan"/>
+	</field>
+	<field name="jumlah" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="jumlah"/>
+		<property name="com.jaspersoft.studio.field.label" value="jumlah"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_detail_pemesanan"/>
+	</field>
+	<field name="harga_jual" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="harga_jual"/>
+		<property name="com.jaspersoft.studio.field.label" value="harga_jual"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_detail_pemesanan"/>
+	</field>
+	<field name="merk_kendaraan" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="merk_kendaraan"/>
+		<property name="com.jaspersoft.studio.field.label" value="merk_kendaraan"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_kendaraan"/>
+	</field>
+	<field name="platnomor" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="platnomor"/>
+		<property name="com.jaspersoft.studio.field.label" value="platnomor"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_kendaraan"/>
+	</field>
+	<field name="nama_pengemudi" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nama_pengemudi"/>
+		<property name="com.jaspersoft.studio.field.label" value="nama_pengemudi"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_pengemudi"/>
+	</field>
+	<background splitType="Stretch"/>
+	<title height="71" splitType="Stretch">
+		<element kind="staticText" uuid="6e695a94-9d4f-47cc-b2f1-ed097de4057d" x="0" y="33" width="100" height="20" vTextAlign="Middle">
+			<text><![CDATA[No Surat:]]></text>
+		</element>
+		<element kind="staticText" uuid="b4549695-ec12-4a95-a2c1-d8be103ba976" x="0" y="44" width="100" height="20" vTextAlign="Middle">
+			<text><![CDATA[Tanggal Surat:]]></text>
+		</element>
+		<element kind="staticText" uuid="6a053b35-add7-44df-8e61-d26b25c27b1c" x="0" y="0" width="800" height="33" fontSize="17.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[SURAT JALAN]]></text>
+		</element>
+		<element kind="textField" uuid="129af93e-49e2-4a74-a664-5ff4d963e897" x="80" y="33" width="100" height="20" vTextAlign="Middle">
+			<expression><![CDATA[$F{no_surat_jalan}]]></expression>
+		</element>
+		<element kind="textField" uuid="b16a8541-c779-4c27-ac95-c996c199af71" x="80" y="44" width="100" height="20" vTextAlign="Middle">
+			<expression><![CDATA[$F{tanggal_surat}]]></expression>
+		</element>
+	</title>
+	<pageHeader height="66" splitType="Stretch">
+		<element kind="staticText" uuid="bb49092a-4e7f-472d-8ecf-9c39b055dc20" x="0" y="10" width="100" height="20" vTextAlign="Middle">
+			<text><![CDATA[No Faktur:]]></text>
+		</element>
+		<element kind="staticText" uuid="16b4775b-8724-4205-bd31-3352be22cc87" x="0" y="21" width="100" height="20" vTextAlign="Middle">
+			<text><![CDATA[Nama Pengemudi:]]></text>
+		</element>
+		<element kind="staticText" uuid="4e8d1df8-88d7-4de9-9c6e-0ffec6c6a4a3" x="0" y="31" width="100" height="20" vTextAlign="Middle">
+			<text><![CDATA[Kendaraan:]]></text>
+		</element>
+		<element kind="textField" uuid="91c785cf-1579-4615-aeac-1a150f8340ba" x="90" y="10" width="100" height="20" vTextAlign="Middle">
+			<expression><![CDATA[$F{no_faktur}]]></expression>
+		</element>
+		<element kind="textField" uuid="b73f458e-0c71-4c7e-ac3e-9835b98b89f3" x="90" y="20" width="100" height="20" vTextAlign="Middle">
+			<expression><![CDATA[$F{nama_pengemudi}]]></expression>
+		</element>
+		<element kind="textField" uuid="9cd3eac6-acbf-40b1-8044-6cfcf17a93dc" x="90" y="30" width="100" height="20" vTextAlign="Middle">
+			<expression><![CDATA[$F{merk_kendaraan}]]></expression>
+		</element>
+		<element kind="staticText" uuid="e56187d3-2eb8-4f6c-862f-b1a42a0747a5" x="0" y="41" width="100" height="20" vTextAlign="Middle">
+			<text><![CDATA[Plat Nomor:]]></text>
+		</element>
+		<element kind="textField" uuid="f30cc561-cb35-44c8-9b57-e9ae0766a42f" x="90" y="40" width="100" height="20" vTextAlign="Middle">
+			<expression><![CDATA[$F{platnomor}]]></expression>
+		</element>
+		<element kind="staticText" uuid="402bbe2a-ddba-4d2d-be62-431d0d7c9eb1" x="610" y="10" width="100" height="20" vTextAlign="Middle">
+			<text><![CDATA[Bayar:]]></text>
+		</element>
+		<element kind="staticText" uuid="50ffd035-63e1-401f-8117-74a6b4640350" x="610" y="21" width="100" height="20" vTextAlign="Middle">
+			<text><![CDATA[Total:]]></text>
+		</element>
+		<element kind="staticText" uuid="2c036544-5225-4ea8-b9ad-92dc283eecfd" x="610" y="31" width="100" height="20" vTextAlign="Middle">
+			<text><![CDATA[Kembalian:]]></text>
+		</element>
+		<element kind="textField" uuid="755bf95b-c6e2-465c-898e-533cd0aa1270" x="700" y="10" width="100" height="20" vTextAlign="Middle">
+			<expression><![CDATA[$F{bayar}]]></expression>
+		</element>
+		<element kind="textField" uuid="108d84ee-6cd5-4110-adfb-425dbc2200a1" x="700" y="20" width="100" height="20" vTextAlign="Middle">
+			<expression><![CDATA[$F{total}]]></expression>
+		</element>
+		<element kind="textField" uuid="8cd62126-98a2-41c1-baf4-431ecfb98880" x="700" y="30" width="100" height="20" vTextAlign="Middle">
+			<expression><![CDATA[$F{kembalian}]]></expression>
+		</element>
+		<element kind="textField" uuid="0265968d-2bd2-46da-bf12-d4d7ed5a848d" x="505" y="40" width="100" height="20" vTextAlign="Middle">
+			<expression><![CDATA[$F{keterangan}]]></expression>
+		</element>
+		<element kind="staticText" uuid="1d73e4b7-7d77-4fe3-96fc-9ad3de930d46" x="396" y="31" width="100" height="20" vTextAlign="Middle">
+			<text><![CDATA[Tanggal Pengiriman:]]></text>
+		</element>
+		<element kind="staticText" uuid="abd33bc3-3109-41fc-96c4-8cd9142ed497" x="396" y="10" width="100" height="20" vTextAlign="Middle">
+			<text><![CDATA[Nama Pelanggan:]]></text>
+		</element>
+		<element kind="textField" uuid="3b7d5804-ecb0-4f13-b0ae-2eb75b7b6e6b" x="505" y="10" width="100" height="20" vTextAlign="Middle">
+			<expression><![CDATA[$F{nama_pelanggan}]]></expression>
+		</element>
+		<element kind="staticText" uuid="d3006d32-2180-4d2f-807e-74b57c2e8051" x="396" y="21" width="100" height="20" vTextAlign="Middle">
+			<text><![CDATA[Tanggal Pemesanan:]]></text>
+		</element>
+		<element kind="textField" uuid="c4998691-adf8-444c-b176-4ce7ed919fe2" x="505" y="20" width="100" height="20" vTextAlign="Middle">
+			<expression><![CDATA[$F{tanggal}]]></expression>
+		</element>
+		<element kind="textField" uuid="87c8e5cb-e4bd-4f97-926a-58b8f35a64d3" x="505" y="30" width="100" height="20" vTextAlign="Middle">
+			<expression><![CDATA[$F{tanggal_pengiriman}]]></expression>
+		</element>
+		<element kind="staticText" uuid="be6d215e-49d0-4071-95b0-e5e991d7ebea" x="396" y="41" width="100" height="20" vTextAlign="Middle">
+			<text><![CDATA[Catatan:]]></text>
+		</element>
+	</pageHeader>
+	<columnHeader height="61" splitType="Stretch">
+		<element kind="staticText" uuid="2f12a679-28d6-4c5b-ac73-008a0cbbe966" x="80" y="10" width="100" height="20" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Nama Barang]]></text>
+		</element>
+		<element kind="textField" uuid="19b691b2-6ac3-4906-8559-97b3fda4ad07" x="80" y="30" width="100" height="20" hTextAlign="Center" vTextAlign="Middle">
+			<expression><![CDATA[$F{nama_barang}]]></expression>
+		</element>
+		<element kind="staticText" uuid="51ba2469-9f1b-4548-bf05-eacb2f51d41b" x="360" y="10" width="100" height="20" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Jumlah]]></text>
+		</element>
+		<element kind="textField" uuid="5eca4877-d677-47ac-b7e6-e3ab58af6eca" x="360" y="30" width="100" height="20" hTextAlign="Center" vTextAlign="Middle">
+			<expression><![CDATA[$F{jumlah}]]></expression>
+		</element>
+		<element kind="textField" uuid="5f00b0c2-80ef-4061-be41-1768f80ff98b" x="640" y="30" width="100" height="20" hTextAlign="Center" vTextAlign="Middle">
+			<expression><![CDATA[$F{harga_jual}]]></expression>
+		</element>
+		<element kind="staticText" uuid="d10bb7ba-a9ed-43b6-9571-ccd10da44294" x="640" y="10" width="100" height="20" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Harga Jual]]></text>
+		</element>
+	</columnHeader>
+</jasperReport>
