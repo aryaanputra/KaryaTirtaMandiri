@@ -3,74 +3,75 @@ package karyatirtamandiri;
 import Koneksi.koneksi;
 import java.awt.Color;
 import java.awt.Cursor;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import javax.swing.JPanel;
-import javax.swing.JFrame;
-import javax.swing.Timer;
 
 public class menu_utama extends javax.swing.JFrame {
     
-    String id_user="", role="", nama_user="";   
+    String id_user="", role="", nama_user="";
     String menuAktif="";
     koneksi k= new koneksi();
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(menu_utama.class.getName());
+    
     public menu_utama() {
         initComponents();
-        updateWaktu();
         k.connect();
     }
     
-    public void setId_user(String id_user){
+    private void hakAkses() {
+        boolean owner = "owner".equalsIgnoreCase(role);
+        boolean admin = "admin".equalsIgnoreCase(role);
+        boolean kasir = "kasir".equalsIgnoreCase(role);
+        
+        System.out.println("Role aktif: [" + role + "]");
+        
+        dashboard.setVisible(true);
+        pelanggan.setVisible(owner || admin || kasir);
+        pemesanan.setVisible(owner || admin || kasir);
+        logout.setVisible(true);
+
+        
+        karyawan.setVisible(owner || admin);
+        pengemudi.setVisible(owner || admin);
+        barang.setVisible(owner || admin);
+        kendaraan.setVisible(owner || admin);
+        pemesanan2.setVisible(owner || admin);
+        
+        laporanpemesanan.setVisible(owner);
+        suratjalan.setVisible(owner);
+        hakakses.setVisible(owner);
+        dokumen1.setVisible(owner);
+        pengaturan1.setVisible(owner);
+
+        System.out.println("Karyawan terlihat: " + karyawan.isVisible());
+        System.out.println("Barang terlihat: " + barang.isVisible());
+        System.out.println("Riwayat terlihat: " + pemesanan2.isVisible());
+
+        menubar.revalidate();
+        menubar.repaint();
+    }
+    
+    public void setId_user(String id_user) {
         this.id_user = id_user;
     }
-    public void setNama_user(String nama_user){
+    
+    public void setNama_user(String nama_user) {
         this.nama_user = nama_user;
-        label_namauser.setText(""+nama_user);
+        label_namauser.setText(nama_user);
     }
-    public void setRole(String role){
-        this.role = role;
-        if(this.role.equals("owner")){
-            dashboard1.setEnabled(true);
-            karyawan1.setEnabled(true);
-            pengemudi1.setEnabled(true);
-            kendaraan1.setEnabled(true);
-        }else if(this.role.equals("admin")){
-            dashboard1.setEnabled(true);
-            karyawan1.setEnabled(true);
-            pengemudi1.setEnabled(true);
-            kendaraan1.setEnabled(true);
-        }
-    }
-    
-    public void resetMenu(){
-        dashboard1.setForeground(new Color(9,146,194));
-        karyawan1.setForeground(new Color(9,146,194));
-        pengemudi1.setForeground(new Color(9,146,194));
-        barang1.setForeground(new Color(9,146,194));
-        kendaraan1.setForeground(new Color(9,146,194));
-        pelanggan1.setForeground(new Color(9,146,194));
-        pemesanan1.setForeground(new Color(9,146,194));
-        laporanpemesanan1.setForeground(new Color(9,146,194));
-        suratjalan1.setForeground(new Color(9,146,194));
-    }
-    
-    private void updateWaktu() {
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-        Timer timer = new Timer(1000, e -> {
-            LocalDateTime waktu = LocalDateTime.now();
-            waktuUpdate1.setText(waktu.format(format));
-        });
-        timer.start();
+
+    public void setRole(String role) {
+        this.role = role == null
+            ? ""
+            : role.trim().toLowerCase();
+
+        hakAkses();
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jProgressBar1 = new javax.swing.JProgressBar();
         pn_dasar = new javax.swing.JPanel();
         pn_kiri = new javax.swing.JPanel();
         menubar = new asset.PanelShadow();
@@ -92,22 +93,23 @@ public class menu_utama extends javax.swing.JFrame {
         barang1 = new javax.swing.JLabel();
         pelanggan = new asset.PanelShadow();
         pelanggan1 = new javax.swing.JLabel();
+        pemesanan2 = new asset.PanelShadow();
+        pemesanan3 = new javax.swing.JLabel();
         laporanpemesanan = new asset.PanelShadow();
         laporanpemesanan1 = new javax.swing.JLabel();
-        transaksi1 = new javax.swing.JLabel();
+        dokumen1 = new javax.swing.JLabel();
         suratjalan = new asset.PanelShadow();
         suratjalan1 = new javax.swing.JLabel();
-        pn_kanan = new javax.swing.JPanel();
+        pengaturan1 = new javax.swing.JLabel();
+        hakakses = new asset.PanelShadow();
+        hakakses1 = new javax.swing.JLabel();
         pn_header = new javax.swing.JPanel();
         masterdata1 = new javax.swing.JLabel();
         username = new asset.PanelShadow();
         label_namauser = new javax.swing.JLabel();
-        waktuUpdate = new asset.PanelShadow();
-        waktuUpdate1 = new javax.swing.JLabel();
         pn_menuheader = new javax.swing.JPanel();
-        btnExit = new javax.swing.JLabel();
-        btnFS = new javax.swing.JLabel();
-        btnMinimize = new javax.swing.JLabel();
+        btnExit = new javax.swing.JButton();
+        pn_kanan = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -125,25 +127,14 @@ public class menu_utama extends javax.swing.JFrame {
         masterdata.setText("Master Data");
 
         dashboard.setBackground(new java.awt.Color(255, 255, 255));
-        dashboard.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                dashboardMouseEntered(evt);
-            }
-        });
 
-        dashboard1.setBackground(new java.awt.Color(255, 255, 255));
         dashboard1.setFont(new java.awt.Font("Arial", 3, 15)); // NOI18N
         dashboard1.setForeground(new java.awt.Color(9, 146, 194));
         dashboard1.setText("Dashboard");
+        dashboard1.setEnabled(false);
         dashboard1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 dashboard1MouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                dashboard1MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                dashboard1MouseExited(evt);
             }
         });
 
@@ -153,8 +144,8 @@ public class menu_utama extends javax.swing.JFrame {
             dashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(dashboardLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(dashboard1, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(dashboard1)
+                .addContainerGap(105, Short.MAX_VALUE))
         );
         dashboardLayout.setVerticalGroup(
             dashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -169,15 +160,10 @@ public class menu_utama extends javax.swing.JFrame {
         karyawan1.setFont(new java.awt.Font("Arial", 3, 15)); // NOI18N
         karyawan1.setForeground(new java.awt.Color(9, 146, 194));
         karyawan1.setText("Karyawan");
+        karyawan1.setEnabled(false);
         karyawan1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 karyawan1MouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                karyawan1MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                karyawan1MouseExited(evt);
             }
         });
 
@@ -187,15 +173,15 @@ public class menu_utama extends javax.swing.JFrame {
             karyawanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(karyawanLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(karyawan1, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(karyawan1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         karyawanLayout.setVerticalGroup(
             karyawanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(karyawanLayout.createSequentialGroup()
-                .addGap(14, 14, 14)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, karyawanLayout.createSequentialGroup()
+                .addContainerGap(15, Short.MAX_VALUE)
                 .addComponent(karyawan1)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addGap(14, 14, 14))
         );
 
         pengemudi.setBackground(new java.awt.Color(255, 255, 255));
@@ -213,15 +199,10 @@ public class menu_utama extends javax.swing.JFrame {
         pengemudi1.setFont(new java.awt.Font("Arial", 3, 15)); // NOI18N
         pengemudi1.setForeground(new java.awt.Color(9, 146, 194));
         pengemudi1.setText("Pengemudi");
+        pengemudi1.setEnabled(false);
         pengemudi1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 pengemudi1MouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                pengemudi1MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                pengemudi1MouseExited(evt);
             }
         });
         pengemudi1.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -236,8 +217,8 @@ public class menu_utama extends javax.swing.JFrame {
             pengemudiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pengemudiLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(pengemudi1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(pengemudi1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(93, Short.MAX_VALUE))
         );
         pengemudiLayout.setVerticalGroup(
             pengemudiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -252,15 +233,10 @@ public class menu_utama extends javax.swing.JFrame {
         kendaraan1.setFont(new java.awt.Font("Arial", 3, 15)); // NOI18N
         kendaraan1.setForeground(new java.awt.Color(9, 146, 194));
         kendaraan1.setText("Kendaraan");
+        kendaraan1.setEnabled(false);
         kendaraan1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 kendaraan1MouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                kendaraan1MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                kendaraan1MouseExited(evt);
             }
         });
 
@@ -270,8 +246,8 @@ public class menu_utama extends javax.swing.JFrame {
             kendaraanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(kendaraanLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(kendaraan1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(kendaraan1)
+                .addContainerGap(108, Short.MAX_VALUE))
         );
         kendaraanLayout.setVerticalGroup(
             kendaraanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -290,15 +266,10 @@ public class menu_utama extends javax.swing.JFrame {
         pemesanan1.setFont(new java.awt.Font("Arial", 3, 15)); // NOI18N
         pemesanan1.setForeground(new java.awt.Color(9, 146, 194));
         pemesanan1.setText("Pemesanan");
+        pemesanan1.setEnabled(false);
         pemesanan1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 pemesanan1MouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                pemesanan1MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                pemesanan1MouseExited(evt);
             }
         });
 
@@ -322,17 +293,11 @@ public class menu_utama extends javax.swing.JFrame {
         logout.setBackground(new java.awt.Color(255, 255, 255));
 
         logout1.setFont(new java.awt.Font("Arial", 3, 15)); // NOI18N
-        logout1.setForeground(new java.awt.Color(255, 102, 102));
+        logout1.setForeground(new java.awt.Color(9, 146, 194));
         logout1.setText("Logout");
         logout1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 logout1MouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                logout1MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                logout1MouseExited(evt);
             }
         });
 
@@ -358,15 +323,10 @@ public class menu_utama extends javax.swing.JFrame {
         barang1.setFont(new java.awt.Font("Arial", 3, 15)); // NOI18N
         barang1.setForeground(new java.awt.Color(9, 146, 194));
         barang1.setText("Barang");
+        barang1.setEnabled(false);
         barang1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 barang1MouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                barang1MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                barang1MouseExited(evt);
             }
         });
 
@@ -376,8 +336,8 @@ public class menu_utama extends javax.swing.JFrame {
             barangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(barangLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(barang1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addComponent(barang1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         barangLayout.setVerticalGroup(
             barangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -392,15 +352,10 @@ public class menu_utama extends javax.swing.JFrame {
         pelanggan1.setFont(new java.awt.Font("Arial", 3, 15)); // NOI18N
         pelanggan1.setForeground(new java.awt.Color(9, 146, 194));
         pelanggan1.setText("Pelanggan");
+        pelanggan1.setEnabled(false);
         pelanggan1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 pelanggan1MouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                pelanggan1MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                pelanggan1MouseExited(evt);
             }
         });
 
@@ -410,7 +365,7 @@ public class menu_utama extends javax.swing.JFrame {
             pelangganLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pelangganLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(pelanggan1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pelanggan1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pelangganLayout.setVerticalGroup(
@@ -421,20 +376,44 @@ public class menu_utama extends javax.swing.JFrame {
                 .addGap(14, 14, 14))
         );
 
+        pemesanan2.setBackground(new java.awt.Color(255, 255, 255));
+
+        pemesanan3.setFont(new java.awt.Font("Arial", 3, 15)); // NOI18N
+        pemesanan3.setForeground(new java.awt.Color(9, 146, 194));
+        pemesanan3.setText("Riwayat Pemesanan");
+        pemesanan3.setEnabled(false);
+        pemesanan3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pemesanan3MouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pemesanan2Layout = new javax.swing.GroupLayout(pemesanan2);
+        pemesanan2.setLayout(pemesanan2Layout);
+        pemesanan2Layout.setHorizontalGroup(
+            pemesanan2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pemesanan2Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(pemesanan3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        pemesanan2Layout.setVerticalGroup(
+            pemesanan2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pemesanan2Layout.createSequentialGroup()
+                .addContainerGap(15, Short.MAX_VALUE)
+                .addComponent(pemesanan3)
+                .addGap(14, 14, 14))
+        );
+
         laporanpemesanan.setBackground(new java.awt.Color(255, 255, 255));
 
         laporanpemesanan1.setFont(new java.awt.Font("Arial", 3, 15)); // NOI18N
         laporanpemesanan1.setForeground(new java.awt.Color(9, 146, 194));
         laporanpemesanan1.setText("Laporan Pemesanan");
+        laporanpemesanan1.setEnabled(false);
         laporanpemesanan1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 laporanpemesanan1MouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                laporanpemesanan1MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                laporanpemesanan1MouseExited(evt);
             }
         });
 
@@ -443,36 +422,31 @@ public class menu_utama extends javax.swing.JFrame {
         laporanpemesananLayout.setHorizontalGroup(
             laporanpemesananLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(laporanpemesananLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(laporanpemesanan1, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16)
+                .addComponent(laporanpemesanan1, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         laporanpemesananLayout.setVerticalGroup(
             laporanpemesananLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, laporanpemesananLayout.createSequentialGroup()
-                .addContainerGap(15, Short.MAX_VALUE)
-                .addComponent(laporanpemesanan1)
-                .addGap(14, 14, 14))
+            .addGroup(laporanpemesananLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(laporanpemesanan1, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
-        transaksi1.setFont(new java.awt.Font("Arial", 3, 17)); // NOI18N
-        transaksi1.setForeground(new java.awt.Color(255, 255, 255));
-        transaksi1.setText("Dokumen");
+        dokumen1.setFont(new java.awt.Font("Arial", 3, 17)); // NOI18N
+        dokumen1.setForeground(new java.awt.Color(255, 255, 255));
+        dokumen1.setText("Dokumen");
 
         suratjalan.setBackground(new java.awt.Color(255, 255, 255));
 
         suratjalan1.setFont(new java.awt.Font("Arial", 3, 15)); // NOI18N
         suratjalan1.setForeground(new java.awt.Color(9, 146, 194));
-        suratjalan1.setText("Surat Jalan");
+        suratjalan1.setText("Dokumentasi & Surat Jalan");
+        suratjalan1.setEnabled(false);
         suratjalan1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 suratjalan1MouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                suratjalan1MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                suratjalan1MouseExited(evt);
             }
         });
 
@@ -481,16 +455,49 @@ public class menu_utama extends javax.swing.JFrame {
         suratjalanLayout.setHorizontalGroup(
             suratjalanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(suratjalanLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(suratjalan1, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(suratjalan1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         suratjalanLayout.setVerticalGroup(
             suratjalanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, suratjalanLayout.createSequentialGroup()
-                .addContainerGap(15, Short.MAX_VALUE)
-                .addComponent(suratjalan1)
-                .addGap(14, 14, 14))
+                .addContainerGap()
+                .addComponent(suratjalan1, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        pengaturan1.setFont(new java.awt.Font("Arial", 3, 17)); // NOI18N
+        pengaturan1.setForeground(new java.awt.Color(255, 255, 255));
+        pengaturan1.setText("Pengaturan");
+
+        hakakses.setBackground(new java.awt.Color(255, 255, 255));
+
+        hakakses1.setFont(new java.awt.Font("Arial", 3, 15)); // NOI18N
+        hakakses1.setForeground(new java.awt.Color(9, 146, 194));
+        hakakses1.setText("Pengaturan Hak Akses");
+        hakakses1.setEnabled(false);
+        hakakses1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                hakakses1MouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout hakaksesLayout = new javax.swing.GroupLayout(hakakses);
+        hakakses.setLayout(hakaksesLayout);
+        hakaksesLayout.setHorizontalGroup(
+            hakaksesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(hakaksesLayout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(hakakses1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        hakaksesLayout.setVerticalGroup(
+            hakaksesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, hakaksesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(hakakses1, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout menubarLayout = new javax.swing.GroupLayout(menubar);
@@ -500,31 +507,40 @@ public class menu_utama extends javax.swing.JFrame {
             .addGroup(menubarLayout.createSequentialGroup()
                 .addGroup(menubarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(menubarLayout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addComponent(masterdata)
+                        .addGroup(menubarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(menubarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(menubarLayout.createSequentialGroup()
+                                    .addGap(14, 14, 14)
+                                    .addComponent(masterdata))
+                                .addGroup(menubarLayout.createSequentialGroup()
+                                    .addContainerGap()
+                                    .addComponent(dashboard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(menubarLayout.createSequentialGroup()
+                                    .addContainerGap()
+                                    .addComponent(karyawan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(menubarLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(pengemudi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(logout, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(menubarLayout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(menubarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(dashboard, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(logout, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(pengemudi, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(pelanggan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(suratjalan, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(pemesanan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(pemesanan2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(laporanpemesanan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(suratjalan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(menubarLayout.createSequentialGroup()
                                 .addGroup(menubarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(menubarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(barang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(kendaraan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGroup(menubarLayout.createSequentialGroup()
-                                        .addGap(6, 6, 6)
-                                        .addGroup(menubarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(transaksi)
-                                            .addComponent(transaksi1))))
-                                .addGap(0, 1, Short.MAX_VALUE))
-                            .addComponent(karyawan, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                    .addGroup(menubarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(pelanggan, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(barang, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(kendaraan, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(transaksi, javax.swing.GroupLayout.Alignment.LEADING))
+                                    .addComponent(dokumen1)
+                                    .addComponent(pengaturan1))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(hakakses, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         menubarLayout.setVerticalGroup(
@@ -549,18 +565,21 @@ public class menu_utama extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pemesanan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(laporanpemesanan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pemesanan2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(transaksi1)
-                .addGap(20, 20, 20)
+                .addComponent(laporanpemesanan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(dokumen1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(suratjalan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pengaturan1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(hakakses, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addComponent(logout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-
-        pn_kanan.setBackground(new java.awt.Color(255, 255, 255));
-        pn_kanan.setLayout(new java.awt.BorderLayout());
 
         javax.swing.GroupLayout pn_kiriLayout = new javax.swing.GroupLayout(pn_kiri);
         pn_kiri.setLayout(pn_kiriLayout);
@@ -569,19 +588,14 @@ public class menu_utama extends javax.swing.JFrame {
             .addGroup(pn_kiriLayout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addComponent(menubar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(pn_kanan, javax.swing.GroupLayout.PREFERRED_SIZE, 1180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
         pn_kiriLayout.setVerticalGroup(
             pn_kiriLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pn_kiriLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(menubar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(pn_kiriLayout.createSequentialGroup()
-                .addComponent(pn_kanan, javax.swing.GroupLayout.PREFERRED_SIZE, 668, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 31, Short.MAX_VALUE))
+                .addComponent(menubar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pn_header.setBackground(new java.awt.Color(9, 146, 194));
@@ -591,8 +605,7 @@ public class menu_utama extends javax.swing.JFrame {
         masterdata1.setText("Karya Tirta Mandiri");
 
         username.setBackground(new java.awt.Color(10, 128, 169));
-        username.setShadowOpacity(0.1F);
-        username.setShadowSize(1);
+        username.setShadowSize(3);
 
         label_namauser.setFont(new java.awt.Font("Arial", 1, 17)); // NOI18N
         label_namauser.setForeground(new java.awt.Color(255, 255, 255));
@@ -612,28 +625,6 @@ public class menu_utama extends javax.swing.JFrame {
             .addComponent(label_namauser, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        waktuUpdate.setBackground(new java.awt.Color(10, 128, 169));
-        waktuUpdate.setShadowOpacity(0.1F);
-        waktuUpdate.setShadowSize(1);
-
-        waktuUpdate1.setFont(new java.awt.Font("Arial", 1, 17)); // NOI18N
-        waktuUpdate1.setForeground(new java.awt.Color(255, 255, 255));
-        waktuUpdate1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-
-        javax.swing.GroupLayout waktuUpdateLayout = new javax.swing.GroupLayout(waktuUpdate);
-        waktuUpdate.setLayout(waktuUpdateLayout);
-        waktuUpdateLayout.setHorizontalGroup(
-            waktuUpdateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(waktuUpdateLayout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(waktuUpdate1, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(13, Short.MAX_VALUE))
-        );
-        waktuUpdateLayout.setVerticalGroup(
-            waktuUpdateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(waktuUpdate1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
         javax.swing.GroupLayout pn_headerLayout = new javax.swing.GroupLayout(pn_header);
         pn_header.setLayout(pn_headerLayout);
         pn_headerLayout.setHorizontalGroup(
@@ -641,11 +632,9 @@ public class menu_utama extends javax.swing.JFrame {
             .addGroup(pn_headerLayout.createSequentialGroup()
                 .addGap(68, 68, 68)
                 .addComponent(masterdata1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(229, 229, 229)
+                .addGap(18, 18, 18)
                 .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(waktuUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pn_headerLayout.setVerticalGroup(
             pn_headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -653,104 +642,67 @@ public class menu_utama extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(pn_headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(username, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(masterdata1, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
-                    .addComponent(waktuUpdate, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(masterdata1, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE))
                 .addGap(9, 9, 9))
         );
 
         pn_menuheader.setBackground(new java.awt.Color(255, 255, 255));
 
-        btnExit.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnExit.setText("     X");
-        btnExit.setPreferredSize(new java.awt.Dimension(8, 20));
-        btnExit.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnExitMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnExitMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnExitMouseExited(evt);
-            }
-        });
-
-        btnFS.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnFS.setText("     🗖");
-        btnFS.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnFSMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnFSMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnFSMouseExited(evt);
-            }
-        });
-
-        btnMinimize.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        btnMinimize.setText("    -");
-        btnMinimize.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnMinimizeMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnMinimizeMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnMinimizeMouseExited(evt);
-            }
-        });
+        btnExit.setBackground(new java.awt.Color(255, 0, 0));
+        btnExit.setForeground(new java.awt.Color(255, 255, 255));
+        btnExit.setText("X");
+        btnExit.addActionListener(this::btnExitActionPerformed);
 
         javax.swing.GroupLayout pn_menuheaderLayout = new javax.swing.GroupLayout(pn_menuheader);
         pn_menuheader.setLayout(pn_menuheaderLayout);
         pn_menuheaderLayout.setHorizontalGroup(
             pn_menuheaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_menuheaderLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btnMinimize, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(btnFS, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 1238, Short.MAX_VALUE)
+                .addComponent(btnExit))
         );
         pn_menuheaderLayout.setVerticalGroup(
             pn_menuheaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnMinimize, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(pn_menuheaderLayout.createSequentialGroup()
-                .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addComponent(btnFS, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnExit)
         );
+
+        pn_kanan.setBackground(new java.awt.Color(255, 255, 255));
+        pn_kanan.setLayout(new java.awt.BorderLayout());
 
         javax.swing.GroupLayout pn_dasarLayout = new javax.swing.GroupLayout(pn_dasar);
         pn_dasar.setLayout(pn_dasarLayout);
         pn_dasarLayout.setHorizontalGroup(
             pn_dasarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_dasarLayout.createSequentialGroup()
+                .addComponent(pn_kiri, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pn_kanan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(pn_header, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(pn_menuheader, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(pn_kiri, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         pn_dasarLayout.setVerticalGroup(
             pn_dasarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_dasarLayout.createSequentialGroup()
                 .addComponent(pn_menuheader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pn_header, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pn_kiri, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pn_dasarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pn_kanan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(pn_dasarLayout.createSequentialGroup()
+                        .addComponent(pn_kiri, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pn_dasar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(pn_dasar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pn_dasar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(pn_dasar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -767,42 +719,70 @@ public class menu_utama extends javax.swing.JFrame {
     }//GEN-LAST:event_pengemudiKeyPressed
 
     private void pengemudi1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pengemudi1MouseClicked
-        resetMenu();
-        pengemudi1.setForeground(new Color (0,0,0));
-        pn_kanan.removeAll();
+        if (!"owner".equalsIgnoreCase(role)
+                && !"admin".equalsIgnoreCase(role)) {
+            javax.swing.JOptionPane.showMessageDialog(
+                    this,
+                    "Anda tidak memiliki hak akses ke menu Pengemudi."
+            );
+            return;
+        }
         
-        menu_pengemudi m = new menu_pengemudi();
-        javax.swing.JScrollPane scroll = new javax.swing.JScrollPane(m);
+        pn_kanan.removeAll();
+
+        menu_pengemudi form = new menu_pengemudi();
+        javax.swing.JScrollPane scroll =
+                new javax.swing.JScrollPane(form);
 
         pn_kanan.add(scroll, java.awt.BorderLayout.CENTER);
         pn_kanan.revalidate();
         pn_kanan.repaint();
     }//GEN-LAST:event_pengemudi1MouseClicked
 
+    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnExitActionPerformed
+
     private void dashboard1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dashboard1MouseClicked
-//        dashboard.setBackground(new Color (242,242,242));
+        
     }//GEN-LAST:event_dashboard1MouseClicked
 
     private void karyawan1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_karyawan1MouseClicked
-        resetMenu();
-        karyawan1.setForeground(new Color (0,0,0));
+        if (!"owner".equalsIgnoreCase(role)
+                && !"admin".equalsIgnoreCase(role)) {
+            javax.swing.JOptionPane.showMessageDialog(
+                    this,
+                    "Anda tidak memiliki hak akses ke menu Karyawan."
+            );
+            return;
+        }
+        
         pn_kanan.removeAll();
-
-        menu_karyawan m = new menu_karyawan();
-        javax.swing.JScrollPane scroll = new javax.swing.JScrollPane(m);
-
+        
+        menu_karyawan form = new menu_karyawan();
+        javax.swing.JScrollPane scroll =
+                new javax.swing.JScrollPane(form);
+        
         pn_kanan.add(scroll, java.awt.BorderLayout.CENTER);
         pn_kanan.revalidate();
         pn_kanan.repaint();
     }//GEN-LAST:event_karyawan1MouseClicked
 
     private void kendaraan1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kendaraan1MouseClicked
-        resetMenu();
-        kendaraan1.setForeground(new Color (0,0,0));
+        if (!"owner".equalsIgnoreCase(role)
+                && !"admin".equalsIgnoreCase(role)) {
+            javax.swing.JOptionPane.showMessageDialog(
+                    this,
+                    "Anda tidak memiliki hak akses ke menu Kendaraan."
+            );
+            return;
+        }
+
         pn_kanan.removeAll();
 
-        menu_kendaraan m = new menu_kendaraan();
-        javax.swing.JScrollPane scroll = new javax.swing.JScrollPane(m);
+        menu_kendaraan form = new menu_kendaraan();
+        javax.swing.JScrollPane scroll =
+                new javax.swing.JScrollPane(form);
 
         pn_kanan.add(scroll, java.awt.BorderLayout.CENTER);
         pn_kanan.revalidate();
@@ -810,212 +790,159 @@ public class menu_utama extends javax.swing.JFrame {
     }//GEN-LAST:event_kendaraan1MouseClicked
 
     private void pengemudiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pengemudiMouseClicked
-//        resetMenu();
-//        pn_kanan.removeAll();
-//        menu_pengemudi pengemudi = new menu_pengemudi();
-//        javax.swing.JScrollPane scroll = new javax.swing.JScrollPane(pengemudi);
-//
-//        pn_kanan.add(scroll, java.awt.BorderLayout.CENTER);
-//        pn_kanan.revalidate();
-//        pn_kanan.repaint();
+        if (!"owner".equalsIgnoreCase(role)
+                && !"admin".equalsIgnoreCase(role)) {
+            javax.swing.JOptionPane.showMessageDialog(
+                    this,
+                    "Anda tidak memiliki hak akses ke menu Pengemudi."
+            );
+            return;
+        }
+
+        pn_kanan.removeAll();
+
+        menu_pengemudi form = new menu_pengemudi();
+        javax.swing.JScrollPane scroll =
+                new javax.swing.JScrollPane(form);
+
+        pn_kanan.add(scroll, java.awt.BorderLayout.CENTER);
+        pn_kanan.revalidate();
+        pn_kanan.repaint();
     }//GEN-LAST:event_pengemudiMouseClicked
 
     private void logout1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logout1MouseClicked
-        logout.setBackground(new Color (220, 220, 220));
         login l = new login();
         l.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_logout1MouseClicked
 
     private void barang1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_barang1MouseClicked
-        resetMenu();
-        barang1.setForeground(new Color (0, 0, 0));
+        if (!"owner".equalsIgnoreCase(role)
+                && !"admin".equalsIgnoreCase(role)) {
+            javax.swing.JOptionPane.showMessageDialog(
+                    this,
+                    "Anda tidak memiliki hak akses ke menu Barang."
+            );
+            return;
+        }
+        
         pn_kanan.removeAll();
-        menu_barang m = new menu_barang();
-        javax.swing.JScrollPane scroll = new javax.swing.JScrollPane(m);
 
+        menu_barang form = new menu_barang();
+        javax.swing.JScrollPane scroll =
+                new javax.swing.JScrollPane(form);
+        
         pn_kanan.add(scroll, java.awt.BorderLayout.CENTER);
         pn_kanan.revalidate();
         pn_kanan.repaint();
     }//GEN-LAST:event_barang1MouseClicked
 
     private void pemesanan1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pemesanan1MouseClicked
-        resetMenu();
-        pemesanan1.setForeground(new Color (0,0,0));
+        if (!"owner".equalsIgnoreCase(role)
+                && !"admin".equalsIgnoreCase(role)
+                && !"kasir".equalsIgnoreCase(role)) {
+            javax.swing.JOptionPane.showMessageDialog(
+                    this,
+                    "Anda tidak memiliki hak akses ke menu Pemesanan."
+            );
+            return;
+        }
+
         pn_kanan.removeAll();
-        menu_pemesanan m = new menu_pemesanan();
-        javax.swing.JScrollPane scroll = new javax.swing.JScrollPane(m);
+
+        menu_pemesanan form = new menu_pemesanan();
+        javax.swing.JScrollPane scroll =
+                new javax.swing.JScrollPane(form);
 
         pn_kanan.add(scroll, java.awt.BorderLayout.CENTER);
         pn_kanan.revalidate();
         pn_kanan.repaint();
     }//GEN-LAST:event_pemesanan1MouseClicked
 
-    private void dashboard1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dashboard1MouseEntered
-//        dashboard.setBackground(new Color (220, 220, 220));
-    }//GEN-LAST:event_dashboard1MouseEntered
-
-    private void dashboardMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dashboardMouseEntered
-
-    }//GEN-LAST:event_dashboardMouseEntered
-
-    private void karyawan1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_karyawan1MouseExited
-//        karyawan.setBackground(new Color (255,255,255));
-    }//GEN-LAST:event_karyawan1MouseExited
-
-    private void karyawan1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_karyawan1MouseEntered
-//        karyawan.setBackground(new Color (220, 220, 220));
-    }//GEN-LAST:event_karyawan1MouseEntered
-
-    private void dashboard1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dashboard1MouseExited
-//       dashboard.setBackground(new Color (255,255,255));
-    }//GEN-LAST:event_dashboard1MouseExited
-
-    private void pengemudi1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pengemudi1MouseEntered
-//        pengemudi.setBackground(new Color (220, 220, 220));
-    }//GEN-LAST:event_pengemudi1MouseEntered
-
-    private void pengemudi1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pengemudi1MouseExited
-//        pengemudi.setBackground(new Color (255,255,255));
-    }//GEN-LAST:event_pengemudi1MouseExited
-
-    private void barang1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_barang1MouseEntered
-//        barang.setBackground(new Color (220, 220, 220));
-    }//GEN-LAST:event_barang1MouseEntered
-
-    private void barang1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_barang1MouseExited
-//        barang.setBackground(new Color (255,255,255));
-    }//GEN-LAST:event_barang1MouseExited
-
-    private void kendaraan1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kendaraan1MouseEntered
-//        kendaraan.setBackground(new Color (220, 220, 220));
-    }//GEN-LAST:event_kendaraan1MouseEntered
-
-    private void kendaraan1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kendaraan1MouseExited
-//        kendaraan.setBackground(new Color (255, 255, 255));
-    }//GEN-LAST:event_kendaraan1MouseExited
-
-    private void pemesanan1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pemesanan1MouseEntered
-//        pemesanan.setBackground(new Color (220, 220, 220));
-    }//GEN-LAST:event_pemesanan1MouseEntered
-
-    private void pemesanan1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pemesanan1MouseExited
-//        pemesanan.setBackground(new Color (255, 255, 255));
-    }//GEN-LAST:event_pemesanan1MouseExited
-
-    private void logout1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logout1MouseEntered
-//        logout.setBackground(new Color (220, 220, 220));
-    }//GEN-LAST:event_logout1MouseEntered
-
-    private void logout1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logout1MouseExited
-//        logout.setBackground(new Color (255, 255, 255));
-    }//GEN-LAST:event_logout1MouseExited
-
-    private void btnExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExitMouseClicked
-        System.exit(0);
-    }//GEN-LAST:event_btnExitMouseClicked
-
-    private void btnExitMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExitMouseEntered
-        btnExit.setBackground(Color.RED);
-        btnExit.setOpaque(true);
-    }//GEN-LAST:event_btnExitMouseEntered
-
-    private void btnExitMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExitMouseExited
-        btnExit.setBackground(new Color(0,0,0,0));
-        btnExit.setOpaque(false);
-    }//GEN-LAST:event_btnExitMouseExited
-
-    private void btnFSMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnFSMouseClicked
-        if (this.getExtendedState() != JFrame.MAXIMIZED_BOTH) {
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-    } else {
-        this.setExtendedState(JFrame.NORMAL);
-}
-    }//GEN-LAST:event_btnFSMouseClicked
-
-    private void btnMinimizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinimizeMouseClicked
-        this.setState(JFrame.ICONIFIED);
-    }//GEN-LAST:event_btnMinimizeMouseClicked
-
-    private void btnFSMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnFSMouseEntered
-        btnFS.setBackground(new Color (220,220,220));
-        btnFS.setOpaque(true);
-    }//GEN-LAST:event_btnFSMouseEntered
-
-    private void btnFSMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnFSMouseExited
-        btnFS.setBackground(new Color (255, 255, 255));
-        btnFS.setOpaque(false);
-    }//GEN-LAST:event_btnFSMouseExited
-
-    private void btnMinimizeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinimizeMouseEntered
-        btnMinimize.setBackground(new Color (220,220,220));
-        btnMinimize.setOpaque(true);
-    }//GEN-LAST:event_btnMinimizeMouseEntered
-
-    private void btnMinimizeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinimizeMouseExited
-        btnMinimize.setBackground(new Color (255, 255, 255));
-        btnMinimize.setOpaque(false);
-    }//GEN-LAST:event_btnMinimizeMouseExited
-
     private void pelanggan1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pelanggan1MouseClicked
-        resetMenu();
-        pelanggan1.setForeground(new Color (0,0,0));
+        if (!"owner".equalsIgnoreCase(role)
+                && !"admin".equalsIgnoreCase(role)
+                && !"kasir".equalsIgnoreCase(role)) {
+            javax.swing.JOptionPane.showMessageDialog(
+                    this,
+                    "Anda tidak memiliki hak akses ke menu Pelanggan."
+            );
+            return;
+        }
+
         pn_kanan.removeAll();
-        menu_pelanggan pelanggan = new menu_pelanggan();
-        javax.swing.JScrollPane scroll = new javax.swing.JScrollPane(pelanggan);
+
+        menu_pelanggan form = new menu_pelanggan();
+        javax.swing.JScrollPane scroll =
+                new javax.swing.JScrollPane(form);
 
         pn_kanan.add(scroll, java.awt.BorderLayout.CENTER);
         pn_kanan.revalidate();
         pn_kanan.repaint();
     }//GEN-LAST:event_pelanggan1MouseClicked
 
-    private void pelanggan1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pelanggan1MouseEntered
-//        pelanggan1.setBackground(new Color (220, 220, 220));
-    }//GEN-LAST:event_pelanggan1MouseEntered
+    private void pemesanan3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pemesanan3MouseClicked
+        if (!"owner".equalsIgnoreCase(role)
+                && !"admin".equalsIgnoreCase(role)) {
+            javax.swing.JOptionPane.showMessageDialog(
+                    this,
+                    "Anda tidak memiliki hak akses ke Riwayat Pemesanan."
+            );
+            return;
+        }
 
-    private void pelanggan1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pelanggan1MouseExited
-//        pelanggan.setBackground(new Color (255,255,255));
-    }//GEN-LAST:event_pelanggan1MouseExited
-
-    private void laporanpemesanan1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_laporanpemesanan1MouseClicked
-        resetMenu();
-        laporanpemesanan1.setForeground(new Color (0, 0, 0));
         pn_kanan.removeAll();
-        riwayat_pemesanan m = new riwayat_pemesanan();
-        javax.swing.JScrollPane scroll = new javax.swing.JScrollPane(m);
+
+        riwayat_pemesanan form = new riwayat_pemesanan();
+        javax.swing.JScrollPane scroll =
+                new javax.swing.JScrollPane(form);
 
         pn_kanan.add(scroll, java.awt.BorderLayout.CENTER);
+        pn_kanan.revalidate();
+        pn_kanan.repaint();
+    }//GEN-LAST:event_pemesanan3MouseClicked
+
+    private void laporanpemesanan1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_laporanpemesanan1MouseClicked
+        pn_kanan.removeAll();
+
+        menu_laporanpemesanan form =
+                new menu_laporanpemesanan();
+
+        form.setSize(pn_kanan.getSize());
+        form.setVisible(true);
+
+        pn_kanan.add(form);
         pn_kanan.revalidate();
         pn_kanan.repaint();
     }//GEN-LAST:event_laporanpemesanan1MouseClicked
 
-    private void laporanpemesanan1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_laporanpemesanan1MouseEntered
-//        laporanpemesanan1.setBackground(new Color (220, 220, 220));
-    }//GEN-LAST:event_laporanpemesanan1MouseEntered
-
-    private void laporanpemesanan1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_laporanpemesanan1MouseExited
-//        laporanpemesanan1.setBackground(new Color (255,255,255));
-    }//GEN-LAST:event_laporanpemesanan1MouseExited
-
     private void suratjalan1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_suratjalan1MouseClicked
-        resetMenu();
-        suratjalan1.setForeground(new Color (0, 0, 0));
         pn_kanan.removeAll();
-        surat_jalan m = new surat_jalan();
-        javax.swing.JScrollPane scroll = new javax.swing.JScrollPane(m);
 
-        pn_kanan.add(scroll, java.awt.BorderLayout.CENTER);
+        menu_suratjalan form = new menu_suratjalan();
+
+        form.setSize(pn_kanan.getSize());
+        form.setVisible(true);
+
+        pn_kanan.add(form);
         pn_kanan.revalidate();
         pn_kanan.repaint();
+
     }//GEN-LAST:event_suratjalan1MouseClicked
 
-    private void suratjalan1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_suratjalan1MouseEntered
-        // TODO add your handling code here:
-    }//GEN-LAST:event_suratjalan1MouseEntered
+    private void hakakses1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hakakses1MouseClicked
+        pn_kanan.removeAll();
 
-    private void suratjalan1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_suratjalan1MouseExited
-        // TODO add your handling code here:
-    }//GEN-LAST:event_suratjalan1MouseExited
+        menu_hakakses form = new menu_hakakses();
+
+        form.setSize(pn_kanan.getSize());
+        form.setVisible(true);
+
+        pn_kanan.add(form);
+        pn_kanan.revalidate();
+        pn_kanan.repaint();
+
+    }//GEN-LAST:event_hakakses1MouseClicked
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(() -> new menu_utama().setVisible(true));
@@ -1024,12 +951,12 @@ public class menu_utama extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private asset.PanelShadow barang;
     private javax.swing.JLabel barang1;
-    private javax.swing.JLabel btnExit;
-    private javax.swing.JLabel btnFS;
-    private javax.swing.JLabel btnMinimize;
+    private javax.swing.JButton btnExit;
     private asset.PanelShadow dashboard;
     private javax.swing.JLabel dashboard1;
-    private javax.swing.JProgressBar jProgressBar1;
+    private javax.swing.JLabel dokumen1;
+    private asset.PanelShadow hakakses;
+    private javax.swing.JLabel hakakses1;
     private asset.PanelShadow karyawan;
     private javax.swing.JLabel karyawan1;
     private asset.PanelShadow kendaraan;
@@ -1046,6 +973,10 @@ public class menu_utama extends javax.swing.JFrame {
     private javax.swing.JLabel pelanggan1;
     private asset.PanelShadow pemesanan;
     private javax.swing.JLabel pemesanan1;
+    private asset.PanelShadow pemesanan2;
+    private javax.swing.JLabel pemesanan3;
+    private asset.PanelShadow pemesanan4;
+    private javax.swing.JLabel pengaturan1;
     private asset.PanelShadow pengemudi;
     private javax.swing.JLabel pengemudi1;
     private javax.swing.JPanel pn_dasar;
@@ -1056,9 +987,6 @@ public class menu_utama extends javax.swing.JFrame {
     private asset.PanelShadow suratjalan;
     private javax.swing.JLabel suratjalan1;
     private javax.swing.JLabel transaksi;
-    private javax.swing.JLabel transaksi1;
     private asset.PanelShadow username;
-    private asset.PanelShadow waktuUpdate;
-    private javax.swing.JLabel waktuUpdate1;
     // End of variables declaration//GEN-END:variables
 }
